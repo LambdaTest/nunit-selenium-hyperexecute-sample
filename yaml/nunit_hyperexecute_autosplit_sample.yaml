@@ -5,6 +5,8 @@ testSuiteTimeout: 150
 testSuiteStep: 150
 
 runson: win
+
+autosplit: true
 retryOnFailure: true
 
 maxRetries: 5
@@ -19,24 +21,14 @@ env:
   NUGET_PLUGINS_CACHE_PATH: 'C:\nuget_plugins_cache'
   PAT: ${{ .secrets.testKey }}
 
-# Further details about overriding default Nuget package download locations
-# https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders
-
-matrix:
-  project: ["NUnitHyperTestDemo/NUnitHyperTestDemo.csproj"]
-  testmethods: ["ToDoTest", "SeleniumPlayGround"]
-
 pre:
  # https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-list-package
  - dotnet list $project package > packages.txt
  - nuget locals all -clear
  - dotnet build -c Release
 
-# Dependency caching for Windows
-cacheKey: '{{ checksum "packages.txt" }}'
-
 post:
-  - cat yaml/nunit_hypertest_matrix_sample.yaml
+  - cat yaml/nunit_hyperexecute_autosplit_sample.yaml
 
 mergeArtifacts: true
 
@@ -45,5 +37,11 @@ uploadArtefacts:
     path:
      - NUnitHyperTestDemo/Reports/**
 
-testSuites:
-  - dotnet test $project --filter "(Category=$testmethods)"
+testDiscovery:
+  type: raw
+  mode: static
+  # command: grep 'class' HyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$4}'
+  # command: dotnet run --project HyperTestDiscoverer/HyperTestDiscoverer.csproj NUnitHyperTestDemo/bin/Debug/netcoreapp3.1/NUnitHyperTestDemo.dll
+  command: grep 'Category' NUnitHyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$2}' | grep -o '".*"'
+
+testRunnerCommand: dotnet test $solution --filter TestCategory=$test 
