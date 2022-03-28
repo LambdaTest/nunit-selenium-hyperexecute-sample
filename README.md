@@ -20,14 +20,14 @@ To know more about how HyperExecute does intelligent Test Orchestration, do chec
    - [Core](#core)
    - [Pre Steps and Dependency Caching](#pre-steps-and-dependency-caching)
    - [Post Steps](#post-steps)
-   - [Artefacts Management](#artefacts-management)
+   - [Artifacts Management](#artifacts-management)
    - [Test Execution](#test-execution)
 
 * [Auto-Split Execution with NUnit](#auto-split-execution-with-nunit)
    - [Core](#core-1)
    - [Pre Steps and Dependency Caching](#pre-steps-and-dependency-caching-1)
    - [Post Steps](#post-steps-1)
-   - [Artefacts Management](#artefacts-management-1)
+   - [Artifacts Management](#artifacts-management-1)
    - [Test Execution](#test-execution-1)
 
 * [Secrets Management](#secrets-management)
@@ -147,11 +147,11 @@ post:
   - cat yaml/nunit_hyperexecute_matrix_sample.yaml
 ```
 
-### Artefacts Management
+### Artifacts Management
 
-The *mergeArtifacts* directive (which is by default *false*) is set to *true* for merging the artefacts and combing artefacts generated under each task.
+The *mergeArtifacts* directive (which is by default *false*) is set to *true* for merging the artifacts and combing artifacts generated under each task.
 
-The *uploadArtefacts* directive informs HyperExecute to upload artefacts [files, reports, etc.] generated after task completion. In the example, *path* consists of a regex for parsing the directory (i.e. *NUnitHyperTestDemo/Reports* that contains the test reports).
+The *uploadArtefacts* directive informs HyperExecute to upload artifacts [files, reports, etc.] generated after task completion. In the example, *path* consists of a regex for parsing the directory (i.e. *NUnitHyperTestDemo/Reports* that contains the test reports).
 
 ```yaml
 mergeArtifacts: true
@@ -162,17 +162,17 @@ uploadArtefacts:
      - NUnitHyperTestDemo/Reports/**
 ```
 
-HyperExecute also facilitates the provision to download the artefacts on your local machine. To download the artefacts, click on Artefacts button corresponding to the associated TestID.
+HyperExecute also facilitates the provision to download the artifacts on your local machine. To download the artifacts, click on Artifacts button corresponding to the associated TestID.
 
-<img width="1425" alt="nunit_matrix_artefacts_1" src="https://user-images.githubusercontent.com/1688653/159751046-130f3440-4653-49ba-999f-42620924b5f0.png">
+<img width="1425" alt="nunit_matrix_artefacts_1" src="https://user-images.githubusercontent.com/1688653/160474216-516acaa1-2f9d-44db-978f-c239aa880868.png">
 
-Now, you can download the artefacts by clicking on the Download button as shown below:
+Now, you can download the artifacts by clicking on the Download button as shown below:
 
-<img width="1425" alt="nunit_matrix_artefacts_2" src="https://user-images.githubusercontent.com/1688653/159751035-58c28845-3196-4203-b125-8ad1beb95207.png">
+<img width="1425" alt="nunit_matrix_artefacts_2" src="https://user-images.githubusercontent.com/1688653/160474241-7476b215-6422-4c0a-93d3-5aaf59017439.png">
 
 ## Test Execution
 
-The CLI option *--config* is used for providing the custom HyperExecute YAML file (i.e. *yaml/nunit_hyperexecute_matrix_sample.yaml*). Run the following command on the terminal to trigger the tests in C# files on the HyperExecute grid. The *--download-artifacts* option is used to inform HyperExecute to download the artefacts for the job. The *--force-clean-artifacts* option force cleans any existing artifacts for the project.
+The CLI option *--config* is used for providing the custom HyperExecute YAML file (i.e. *yaml/nunit_hyperexecute_matrix_sample.yaml*). Run the following command on the terminal to trigger the tests in C# files on the HyperExecute grid. The *--download-artifacts* option is used to inform HyperExecute to download the artifacts for the job. The *--force-clean-artifacts* option force cleans any existing artifacts for the project.
 
 ```bash
 ./concierge --config yaml/nunit_hyperexecute_matrix_sample.yaml --force-clean-artifacts --download-artifacts
@@ -180,7 +180,7 @@ The CLI option *--config* is used for providing the custom HyperExecute YAML fil
 
 Visit [HyperExecute Automation Dashboard](https://automation.lambdatest.com/hypertest) to check the status of execution:
 
-<img width="1414" alt="nunit_matrix_execution" src="https://user-images.githubusercontent.com/1688653/159751046-130f3440-4653-49ba-999f-42620924b5f0.png">
+<img width="1414" alt="nunit_matrix_execution" src="https://user-images.githubusercontent.com/1688653/160474216-516acaa1-2f9d-44db-978f-c239aa880868.png">
 
 Shown below is the execution screenshot when the YAML file is triggered from the terminal:
 
@@ -272,11 +272,11 @@ The *testRunnerCommand* contains the command that is used for triggering the tes
 testRunnerCommand: dotnet test $solution --filter TestCategory=$test
 ```
 
-### Artefacts Management
+### Artifacts Management
 
-The *mergeArtifacts* directive (which is by default *false*) is set to *true* for merging the artefacts and combing artefacts generated under each task.
+The *mergeArtifacts* directive (which is by default *false*) is set to *true* for merging the artifacts and combing artifacts generated under each task.
 
-The *uploadArtefacts* directive informs HyperExecute to upload artefacts [files, reports, etc.] generated after task completion. In the example, *path* consists of a regex for parsing the directory (i.e. *NUnitHyperTestDemo/Reports* that contains the test reports).
+The *uploadArtefacts* directive informs HyperExecute to upload artifacts [files, reports, etc.] generated after task completion. In the example, *path* consists of a regex for parsing the directory (i.e. *NUnitHyperTestDemo/Reports* that contains the test reports).
 
 ```yaml
 mergeArtifacts: true
@@ -287,17 +287,17 @@ uploadArtefacts:
      - NUnitHyperTestDemo/Reports/**
 ```
 
-HyperExecute also facilitates the provision to download the artefacts on your local machine. To download the artefacts, click on Artefacts button corresponding to the associated TestID.
+HyperExecute also facilitates the provision to download the artifacts on your local machine. To download the artifacts, click on Artifacts button corresponding to the associated TestID.
 
-<img width="1425" alt="nunit_autosplit_artefacts_1" src="https://user-images.githubusercontent.com/1688653/159751939-b8db8957-26a6-486b-b9f2-18a8ddae72a9.png">
+<img width="1425" alt="nunit_autosplit_artefacts_1" src="https://user-images.githubusercontent.com/1688653/160474250-009ccc59-9f86-465a-b981-9f46516c6a5e.png">
 
-Now, you can download the artefacts by clicking on the Download button as shown below:
+Now, you can download the artifacts by clicking on the Download button as shown below:
 
-<img width="1425" alt="nunit_autosplit_artefacts_2" src="https://user-images.githubusercontent.com/1688653/159751967-3a66103a-9f82-456d-b50b-25a18892121a.png">
+<img width="1425" alt="nunit_autosplit_artefacts_2" src="https://user-images.githubusercontent.com/1688653/160474258-b3fecaf6-060c-4196-82b2-b6191208f387.png">
 
 ### Test Execution
 
-The CLI option *--config* is used for providing the custom HyperExecute YAML file (i.e. *yaml/nunit_hyperexecute_autosplit_sample.yaml*). Run the following command on the terminal to trigger the tests in C# files on the HyperExecute grid. The *--download-artifacts* option is used to inform HyperExecute to download the artefacts for the job. The *--force-clean-artifacts* option force cleans any existing artifacts for the project.
+The CLI option *--config* is used for providing the custom HyperExecute YAML file (i.e. *yaml/nunit_hyperexecute_autosplit_sample.yaml*). Run the following command on the terminal to trigger the tests in C# files on the HyperExecute grid. The *--download-artifacts* option is used to inform HyperExecute to download the artifacts for the job. The *--force-clean-artifacts* option force cleans any existing artifacts for the project.
 
 ```bash
 ./concierge --config yaml/nunit_hyperexecute_autosplit_sample.yaml --force-clean-artifacts --download-artifacts
@@ -305,7 +305,7 @@ The CLI option *--config* is used for providing the custom HyperExecute YAML fil
 
 Visit [HyperExecute Automation Dashboard](https://automation.lambdatest.com/hypertest) to check the status of execution
 
-<img width="1414" alt="nunit_autosplit_execution" src="https://user-images.githubusercontent.com/1688653/159751939-b8db8957-26a6-486b-b9f2-18a8ddae72a9.png">
+<img width="1414" alt="nunit_autosplit_execution" src="https://user-images.githubusercontent.com/1688653/160474250-009ccc59-9f86-465a-b981-9f46516c6a5e.png">
 
 Shown below is the execution screenshot when the YAML file is triggered from the terminal:
 
@@ -336,7 +336,7 @@ HyperExecute lets you navigate from/to *Test Logs* in Automation Dashboard from/
 
 Shown below is the HyperExecute Automation dashboard which also lists the tests that were executed as a part of the test suite:
 
-<img width="1429" alt="nunit_hypertest_automation_dashboard" src="https://user-images.githubusercontent.com/1688653/159751046-130f3440-4653-49ba-999f-42620924b5f0.png">
+<img width="1429" alt="nunit_hypertest_automation_dashboard" src="https://user-images.githubusercontent.com/1688653/160474216-516acaa1-2f9d-44db-978f-c239aa880868.png">
 
 Here is a screenshot that lists the automation test that was executed on the HyperExecute grid:
 
