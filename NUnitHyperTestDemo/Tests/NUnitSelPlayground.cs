@@ -11,8 +11,8 @@ using NUnit.Framework.Interfaces;
 
 namespace NUnitSeleniumPlayground
 {
-    [TestFixture("chrome", "latest-1", "Windows 11")]
-    [TestFixture("firefox", "latest-1", "Windows 11")]
+    [TestFixture("chrome", "latest-1", "Windows 10")]
+    [TestFixture("firefox", "latest-1", "Windows 10")]
     [Parallelizable(ParallelScope.Self)]
 
     [Category("SeleniumPlayGround")]

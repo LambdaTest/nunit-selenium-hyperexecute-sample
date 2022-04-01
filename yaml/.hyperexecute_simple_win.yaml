@@ -1,0 +1,31 @@
+---
+version: 0.1
+runson: win
+autosplit: true
+maxRetries: 5
+concurrency: 2
+
+project: NUnitHyperTestDemo/NUnitHyperTestDemo.csproj
+solution: NUnitHyperTestDemo.sln
+
+env:
+  NUGET_PACKAGES: 'C:\nuget_global_cache'
+  NUGET_HTTP_CACHE_PATH: 'C:\nuget_http_cache'
+  NUGET_PLUGINS_CACHE_PATH: 'C:\nuget_plugins_cache'
+
+pre:
+ # https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-list-package
+ - dotnet list $project package > packages.txt
+ - nuget locals all -clear
+ - dotnet build -c Release
+
+mergeArtifacts: true
+
+testDiscovery:
+  type: raw
+  mode: dynamic
+  # command: grep 'class' HyperTestDemo -ir --include=*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$4}'
+  # command: dotnet run --project HyperTestDiscoverer/HyperTestDiscoverer.csproj NUnitHyperTestDemo/bin/Debug/netcoreapp3.1/NUnitHyperTestDemo.dll
+  command: grep 'Category' NUnitHyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$2}' | grep -o '".*"'
+
+testRunnerCommand: dotnet test $solution --filter TestCategory=$test

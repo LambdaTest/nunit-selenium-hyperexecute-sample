@@ -12,7 +12,7 @@ using NUnit.Framework.Interfaces;
 
 namespace NUnitToDo
 {
-    [TestFixture("chrome", "latest", "Windows 11")]
+    [TestFixture("chrome", "latest", "Windows 10")]
     [TestFixture("firefox", "latest", "Windows 10")]
     [Parallelizable(ParallelScope.Self)]
 
