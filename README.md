@@ -49,7 +49,7 @@ Also, it is recommended to download the binary in the project's parent directory
 
 ## Configure Environment Variables
 
-Before the tests are run, please set the environment variables LT_USERNAME & LT_ACCESS_KEY from the terminal. The account details are available on your [LambdaTest Profile](https://accounts.lambdatest.com/detail/profile) page.
+Before the tests are run, please set the environment variables <b>LT_USERNAME</b> & <b>LT_ACCESS_KEY</b> from the terminal. The account details are available on your [LambdaTest Profile](https://accounts.lambdatest.com/detail/profile) page.
 
 For macOS:
 
@@ -70,6 +70,38 @@ For Windows:
 ```bash
 set LT_USERNAME=LT_USERNAME
 set LT_ACCESS_KEY=LT_ACCESS_KEY
+```
+
+The <b>HYPERXECUTE_PLATFORM</b> environment variable must be set to the platform (or operating system) on which you wish to perform the test execution. Here are the values that can be assigned to HYPEREXECUTE_PLATFORM
+
+* win10 for Windows OS
+* linux for Linux OS
+* macOS Catalina for macOS
+
+Use the commands mentioned below, to set the HyperExecute Platform (i.e. HYPEREXECUTE_PLATFORM) to Linux, macOS, or Windows respectively:
+
+Host OS: Linux
+
+```bash
+export HYPERXECUTE_PLATFORM=win10
+export HYPERXECUTE_PLATFORM=linux
+export HYPERXECUTE_PLATFORM=macOS Catalina
+```
+
+Host OS: macOS
+
+```bash
+export HYPERXECUTE_PLATFORM=win10
+export HYPERXECUTE_PLATFORM=linux
+export HYPERXECUTE_PLATFORM=macOS Catalina
+```
+
+Host OS: Windows
+
+```bash
+set HYPERXECUTE_PLATFORM=wind10
+set HYPERXECUTE_PLATFORM=linux
+set HYPERXECUTE_PLATFORM=macOS Catalina
 ```
 
 # Matrix Execution with NUnit
