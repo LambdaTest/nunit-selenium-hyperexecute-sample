@@ -39,7 +39,7 @@ uploadArtefacts:
 
 testDiscovery:
   type: raw
-  mode: static
+  mode: dynamic
   # command: grep 'class' HyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$4}'
   # command: dotnet run --project HyperTestDiscoverer/HyperTestDiscoverer.csproj NUnitHyperTestDemo/bin/Debug/netcoreapp3.1/NUnitHyperTestDemo.dll
   command: grep 'Category' NUnitHyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$2}' | grep -o '".*"'
