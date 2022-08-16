@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using NUnit.Framework;
@@ -109,7 +109,7 @@ namespace NUnitSeleniumPlayground
             IWebElement name = driver.Value.FindElement(By.XPath("//input[@id='name']"));
             name.SendKeys("Testing");
 
-            IWebElement email_address = driver.Value.FindElement(By.XPath("//input[@name='email']"));
+            IWebElement email_address = driver.Value.FindElement(By.Id("inputEmail4"));
             email_address.SendKeys("testing@testing.com");
 
             IWebElement password = driver.Value.FindElement(By.XPath("//input[@name='password']"));
