@@ -13,6 +13,8 @@ namespace NUnitSeleniumPlayground
 {
     [TestFixture("chrome", "latest-1", "Windows 10")]
     [TestFixture("firefox", "latest-1", "Windows 10")]
+    // [TestFixture("chrome", "latest-1", "Linux")]
+    // [TestFixture("firefox", "latest-1", "Linux")]
     [Parallelizable(ParallelScope.Self)]
 
     [Category("SeleniumPlayGround")]
@@ -54,7 +56,7 @@ namespace NUnitSeleniumPlayground
             _extent.AttachReporter(htmlReporter);
             _extent.AddSystemInfo("Host Name", "Selenium Playground Testing on HyperTest Grid");
             _extent.AddSystemInfo("Environment", "Windows Platform");
-            _extent.AddSystemInfo("UserName", "Himanshu Sheth");
+            _extent.AddSystemInfo("UserName", "User");
             htmlReporter.LoadConfig(projectPath + "Configurations//report-config.xml");
         }
 

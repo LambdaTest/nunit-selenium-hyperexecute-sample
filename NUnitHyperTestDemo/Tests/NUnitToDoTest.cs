@@ -14,6 +14,8 @@ namespace NUnitToDo
 {
     [TestFixture("chrome", "latest", "Windows 10")]
     [TestFixture("firefox", "latest", "Windows 10")]
+    // [TestFixture("chrome", "latest", "Linux")]
+    // [TestFixture("firefox", "latest", "Linux")]
     [Parallelizable(ParallelScope.Self)]
 
     [Category("ToDoTest")]
@@ -52,7 +54,7 @@ namespace NUnitToDo
             _extent.AttachReporter(htmlReporter);
             _extent.AddSystemInfo("Host Name", "ToDo Testing on HyperTest Grid");
             _extent.AddSystemInfo("Environment", "Windows Platform");
-            _extent.AddSystemInfo("UserName", "Himanshu Sheth");
+            _extent.AddSystemInfo("UserName", "User");
             htmlReporter.LoadConfig(projectPath + "Configurations//report-config.xml");
         }
 
