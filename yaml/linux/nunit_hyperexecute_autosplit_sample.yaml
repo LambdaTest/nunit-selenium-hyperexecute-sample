@@ -4,31 +4,31 @@ globalTimeout: 150
 testSuiteTimeout: 150
 testSuiteStep: 150
 
-runson: win
+runson: linux
 
 autosplit: true
 retryOnFailure: true
 
-maxRetries: 5
+maxRetries: 1
 concurrency: 2
 
 project: NUnitHyperTestDemo/NUnitHyperTestDemo.csproj
 solution: NUnitHyperTestDemo.sln
 
 env:
-  NUGET_PACKAGES: 'C:\nuget_global_cache'
-  NUGET_HTTP_CACHE_PATH: 'C:\nuget_http_cache'
-  NUGET_PLUGINS_CACHE_PATH: 'C:\nuget_plugins_cache'
+  NUGET_PACKAGES: '/home/ltuser/.nuget/packages/'
+  NUGET_HTTP_CACHE_PATH: '/home/ltuser/.local/share/NuGet/v3-cache'
+  NUGET_PLUGINS_CACHE_PATH: '/home/ltuser/.local/share/NuGet/plugins-cache'
   # PAT: ${{ .secrets.testKey }}
 
 pre:
  # https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-list-package
+ - dotnet restore
  - dotnet list $project package > packages.txt
- - nuget locals all -clear
  - dotnet build -c Release
 
 post:
-  - cat yaml/nunit_hyperexecute_autosplit_sample.yaml
+  - cat yaml/linux/nunit_hyperexecute_autosplit_sample.yaml
 
 mergeArtifacts: true
 
