@@ -48,3 +48,5 @@ uploadArtefacts:
 
 testSuites:
   - dotnet test $project --filter "(Category=$testmethods)"
+
+jobLabel: [selenium-Nunit, win, matrix]  

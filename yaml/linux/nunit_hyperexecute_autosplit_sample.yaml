@@ -45,3 +45,5 @@ testDiscovery:
   command: grep 'Category' NUnitHyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$2}' | grep -o '".*"'
 
 testRunnerCommand: dotnet test $solution --filter TestCategory=$test 
+
+jobLabel: [selenium-Nunit, linux, autosplit]  
