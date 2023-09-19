@@ -143,7 +143,7 @@ namespace NUnitSeleniumPlayground
             zipcode.SendKeys("94088");
 
             /* Click on the Submit button */
-            IWebElement submit_button = driver.Value.FindElement(By.CssSelector(".btn"));
+            IWebElement submit_button = driver.Value.FindElement(By.CssSelector("#seleniumform > div.text-right.mt-20 > button"));
             submit_button.Click();
 
             /* Assert if the page contains a certain text */
