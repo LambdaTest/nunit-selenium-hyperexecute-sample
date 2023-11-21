@@ -17,22 +17,16 @@ env:
   NUGET_PACKAGES: '/home/ltuser/.nuget/packages/'
   NUGET_HTTP_CACHE_PATH: '/home/ltuser/.local/share/NuGet/v3-cache'
   NUGET_PLUGINS_CACHE_PATH: '/home/ltuser/.local/share/NuGet/plugins-cache'
-  # PAT: ${{ .secrets.testKey }}
-
-# Further details about overriding default Nuget package download locations
-# https://docs.microsoft.com/en-us/nuget/consume-packages/managing-the-global-packages-and-cache-folders
 
 matrix:
   project: ["NUnitHyperTestDemo/NUnitHyperTestDemo.csproj"]
   testmethods: ["ToDoTest", "SeleniumPlayGround"]
 
 pre:
- # https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-list-package
  - dotnet restore
  - dotnet list $project package > packages.txt
  - dotnet build -c Release
 
-# Dependency caching for Windows
 cacheKey: '{{ checksum "packages.txt" }}'
 
 post:
