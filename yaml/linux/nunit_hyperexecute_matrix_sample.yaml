@@ -42,7 +42,7 @@ uploadArtefacts:
 report: true
 partialReports:
     type: json
-    location: NUnitHyperTestDemo/Reports/
+    location: NUnitHyperTestDemo/
     frameworkName: extent
 
 testSuites:
