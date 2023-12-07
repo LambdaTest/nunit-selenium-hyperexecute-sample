@@ -33,6 +33,12 @@ uploadArtefacts:
     path:
      - NUnitHyperTestDemo/Reports/**
 
+report: true
+partialReports:
+    type: json
+    location: NUnitHyperTestDemo/Reports/
+    frameworkName: extent
+
 testDiscovery:
   type: raw
   mode: dynamic

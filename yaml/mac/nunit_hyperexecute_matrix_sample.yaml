@@ -29,6 +29,12 @@ uploadArtefacts:
     path:
      - NUnitHyperTestDemo/Reports/**
 
+report: true
+partialReports:
+    type: json
+    location: NUnitHyperTestDemo/Reports/
+    frameworkName: extent
+
 testSuites:
   - dotnet test $project --filter "(Category=$testmethods)"
 
