@@ -1,17 +1,6 @@
 ---
 version: 0.1
-globalTimeout: 150
-testSuiteTimeout: 150
-testSuiteStep: 150
-
 runson: linux
-retryOnFailure: true
-
-maxRetries: 1
-concurrency: 2
-
-project: NUnitHyperTestDemo/NUnitHyperTestDemo.csproj
-solution: NUnitHyperTestDemo.sln
 
 env:
   NUGET_PACKAGES: '/home/ltuser/.nuget/packages/'
@@ -21,31 +10,17 @@ env:
 matrix:
   project: ["NUnitHyperTestDemo/NUnitHyperTestDemo.csproj"]
   testmethods: ["ToDoTest", "SeleniumPlayGround"]
+  solution: ["NUnitHyperTestDemo.sln"]
 
 pre:
  - dotnet restore
  - dotnet list $project package > packages.txt
  - dotnet build -c Release
 
-cacheKey: '{{ checksum "packages.txt" }}'
-
-post:
-  - cat yaml/linux/nunit_hyperexecute_matrix_sample.yaml
-
-mergeArtifacts: true
-
-uploadArtefacts:
-  - name: ExecutionSnapshots
-    path:
-     - NUnitHyperTestDemo/Reports/**
-
-report: true
-partialReports:
-    type: json
-    location: NUnitHyperTestDemo/
-    frameworkName: extent
-
 testSuites:
-  - dotnet test $project --filter "(Category=$testmethods)"
+  - dotnet test $solution --filter "(Category=$testmethods)"
+
+retryOnFailure: true
+maxRetries: 1
 
 jobLabel: [selenium-Nunit, linux, matrix]  
