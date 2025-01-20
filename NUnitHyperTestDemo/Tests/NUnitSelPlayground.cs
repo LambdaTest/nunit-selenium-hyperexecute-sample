@@ -121,7 +121,7 @@ namespace NUnitSeleniumPlayground
             company.SendKeys("LambdaTest");
 
             IWebElement website = driver.Value.FindElement(By.CssSelector("#websitename"));
-            website.SendKeys("https://wwww.lambdatest.com");
+            website.SendKeys("https://www.lambdatest.com");
 
             IWebElement countryDropDown = driver.Value.FindElement(By.XPath("//select[@name='country']"));
             SelectElement selectElement = new SelectElement(countryDropDown);
