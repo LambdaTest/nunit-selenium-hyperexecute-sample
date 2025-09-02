@@ -103,7 +103,7 @@ namespace NUnitToDo
             driver.Value.FindElement(By.Name("li5")).Click();
 
             /* If both clicks worked, then te following List should have length 2 */
-            IList<IWebElement> elems = driver.Value.FindElements(By.ClassName("done-true"));
+            IList<IWebElement> elems = driver.Value.FindElements(By.ClassName("ng-not-empty"));
 
             /* so we'll assert that this is correct. */
             Assert.AreEqual(2, elems.Count);
