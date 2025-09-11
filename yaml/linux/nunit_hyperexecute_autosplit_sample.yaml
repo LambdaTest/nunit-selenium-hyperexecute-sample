@@ -26,3 +26,7 @@ retryOnFailure: true
 maxRetries: 1
 
 jobLabel: [selenium-Nunit, linux, autosplit]  
+
+runtime:
+  language: dotnet
+  version: 8
