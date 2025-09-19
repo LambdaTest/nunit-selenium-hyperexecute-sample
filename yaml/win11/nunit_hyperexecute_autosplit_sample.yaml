@@ -1,6 +1,6 @@
 ---
 version: 0.1
-runson: win
+runson: win11
 
 autosplit: true
 concurrency: 2
@@ -30,4 +30,4 @@ testRunnerCommand: dotnet test NUnitHyperTestDemo.sln --filter TestCategory=$tes
 retryOnFailure: true
 maxRetries: 1
 
-jobLabel: [selenium-Nunit, win, autosplit]  
+jobLabel: [selenium-Nunit, win11, autosplit]  
