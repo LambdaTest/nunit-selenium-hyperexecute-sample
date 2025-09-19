@@ -7,7 +7,7 @@ concurrency: 2
 
 runtime:
   language: dotnet
-  version: "6.0"
+  version: "8.0"
 
 env:
   NUGET_PACKAGES: 'C:\nuget_global_cache'
