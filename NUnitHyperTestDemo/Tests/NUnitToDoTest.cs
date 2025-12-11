@@ -111,10 +111,16 @@ namespace NUnitToDo
             Console.WriteLine("Entering Text");
             driver.Value.FindElement(By.Id("sampletodotext")).SendKeys("Yey, Let's add it to list");
             driver.Value.FindElement(By.Id("addbutton")).Click();
-
-            /* lets also assert that the new todo we added is in the list */
-            string spanText = driver.Value.FindElement(By.XPath("/html/body/div/div/div/ul/li[6]/span")).Text;
-            Assert.AreEqual("Yey, Let's add it to list", spanText);
+            var wait = new WebDriverWait(driver.Value, TimeSpan.FromSeconds(20));
+            string expectedText = "Yey, Let's add it to list";
+            var lastItem = wait.Until(d =>
+            {
+                var items = d.FindElements(By.CssSelector("ul.list-unstyled li span.ng-binding"));
+                if (items.Count == 0) return null;
+                var last = items[items.Count - 1];
+                return last.Text.Trim() == expectedText ? last : null;
+            });
+            Assert.AreEqual(expectedText, lastItem.Text.Trim());
         }
 
         [OneTimeTearDown]
