@@ -21,7 +21,7 @@ env:
 
 matrix:
   project: ["NUnitHyperTestDemo/NUnitHyperTestDemo.csproj"]
-  testmethods: ["ToDoTest", "SeleniumPlayGround"]
+  testmethods: ["ToDoTest", "LoginTest"]
 
 pre:
  - dotnet restore
