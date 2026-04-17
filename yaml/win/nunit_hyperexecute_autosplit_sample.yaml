@@ -23,7 +23,7 @@ pre:
 testDiscovery:
   type: raw
   mode: dynamic
-  command: grep 'Category' NUnitHyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$2}' | grep -o '".*"'
+  command: powershell -File scripts/discover-tests.ps1
 
 testRunnerCommand: dotnet test NUnitHyperTestDemo.sln --filter TestCategory=$test 
 
@@ -31,3 +31,6 @@ retryOnFailure: true
 maxRetries: 1
 
 jobLabel: [selenium-Nunit, win, autosplit]  
+
+project:
+ id: 01K5C4GMD3VFK63ZQQDWRDEPT0
