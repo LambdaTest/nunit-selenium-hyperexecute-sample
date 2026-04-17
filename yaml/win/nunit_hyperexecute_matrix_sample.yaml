@@ -1,17 +1,18 @@
 ---
 version: 0.1
+runson: win
+
+runtime:
+  language: dotnet
+  version: "8.0"
+
 globalTimeout: 150
 testSuiteTimeout: 150
 testSuiteStep: 150
 
-runson: win
-retryOnFailure: true
-
-maxRetries: 1
 concurrency: 2
-
-project: NUnitHyperTestDemo/NUnitHyperTestDemo.csproj
-solution: NUnitHyperTestDemo.sln
+retryOnFailure: true
+maxRetries: 1
 
 env:
   NUGET_PACKAGES: 'C:\nuget_global_cache'
@@ -20,7 +21,7 @@ env:
 
 matrix:
   project: ["NUnitHyperTestDemo/NUnitHyperTestDemo.csproj"]
-  testmethods: ["ToDoTest", "SeleniumPlayGround"]
+  testmethods: ["ToDoTest", "LoginTest"]
 
 pre:
  - dotnet restore
@@ -49,4 +50,4 @@ partialReports:
 testSuites:
   - dotnet test $project --filter "(Category=$testmethods)"
 
-jobLabel: [selenium-Nunit, win, matrix]  
+jobLabel: [selenium-Nunit, win, matrix]

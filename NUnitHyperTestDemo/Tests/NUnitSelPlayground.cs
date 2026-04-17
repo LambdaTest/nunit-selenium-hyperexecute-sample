@@ -14,8 +14,8 @@ using System.Collections.Generic;
 
 namespace NUnitLoginTest
 {
-    [TestFixture("chrome", "latest-1", "Windows 10")]
-    [TestFixture("firefox", "latest-1", "Windows 10")]
+    [TestFixture("chrome", "latest", "Windows 10")]
+    [TestFixture("firefox", "latest", "Windows 10")]
     [Parallelizable(ParallelScope.Self)]
 
     [Category("LoginTest")]
@@ -33,6 +33,7 @@ namespace NUnitLoginTest
         private readonly string os;
 
         public static ExtentReports? _extent;
+        private static readonly object _extentLock = new object();
         public ExtentTest? _test;
         public string? TC_Name;
         public static string dirPath = "Reports//LoginTest";
@@ -109,12 +110,13 @@ namespace NUnitLoginTest
                 throw new ArgumentException($"Unsupported browser: {browser}");
             }
 
+            /* Stagger parallel fixture session creation to avoid hitting the hub simultaneously */
+            Thread.Sleep(new Random().Next(0, 3000));
+
             driver.Value = new RemoteWebDriver(
                 new Uri($"https://{lt_username}:{lt_access_key}{gridURL}"),
                 options.ToCapabilities(),
                 TimeSpan.FromSeconds(600));
-
-            Console.Out.WriteLine(driver);
         }
 
         [Test]
@@ -215,7 +217,10 @@ namespace NUnitLoginTest
         protected void ExtentClose()
         {
             Console.WriteLine("OneTimeTearDown");
-            _extent?.Flush();
+            lock (_extentLock)
+            {
+                _extent?.Flush();
+            }
         }
 
         [TearDown]
@@ -231,50 +236,58 @@ namespace NUnitLoginTest
             DateTime time = DateTime.Now;
             fileName = "Screenshot_" + time.ToString("h_mm_ss") + TC_Name + ".png";
 
-            switch (exec_status)
+            if (driver.Value != null)
             {
-                case TestStatus.Failed:
-                    logstatus = Status.Fail;
-                    /* The older way of capturing screenshots */
-                    Capture(driver.Value!, fileName);
-                    /* Capturing Screenshots using built-in methods in ExtentReports 5 */
-                    var mediaEntity = CaptureScreenShot(driver.Value!, fileName);
-                    _test!.Log(Status.Fail, "Fail");
-                    /* Usage of MediaEntityBuilder for capturing screenshots */
-                    _test.Fail("ExtentReport 5 Capture: Test Failed", mediaEntity);
-                    /* Usage of traditional approach for capturing screenshots */
-                    _test.Log(Status.Fail, "Traditional Snapshot below: " + _test.AddScreenCaptureFromPath("Screenshots//" + fileName));
-                    break;
-                case TestStatus.Passed:
-                    logstatus = Status.Pass;
-                    /* The older way of capturing screenshots */
-                    Capture(driver.Value!, fileName);
-                    /* Capturing Screenshots using built-in methods in ExtentReports 5 */
-                    mediaEntity = CaptureScreenShot(driver.Value!, fileName);
-                    _test!.Log(Status.Pass, "Pass");
-                    /* Usage of MediaEntityBuilder for capturing screenshots */
-                    _test.Pass("ExtentReport 5 Capture: Test Passed", mediaEntity);
-                    /* Usage of traditional approach for capturing screenshots */
-                    _test.Log(Status.Pass, "Traditional Snapshot below: " + _test.AddScreenCaptureFromPath("Screenshots//" + fileName));
-                    break;
-                case TestStatus.Inconclusive:
-                    logstatus = Status.Warning;
-                    break;
-                case TestStatus.Skipped:
-                    logstatus = Status.Skip;
-                    break;
-                default:
-                    break;
-            }
-            _test?.Log(logstatus, "Test: " + TC_Name + " Status:" + logstatus + stacktrace);
+                switch (exec_status)
+                {
+                    case TestStatus.Failed:
+                        logstatus = Status.Fail;
+                        /* The older way of capturing screenshots */
+                        Capture(driver.Value, fileName);
+                        /* Capturing Screenshots using built-in methods in ExtentReports 5 */
+                        var mediaEntity = CaptureScreenShot(driver.Value, fileName);
+                        _test!.Log(Status.Fail, "Fail");
+                        /* Usage of MediaEntityBuilder for capturing screenshots */
+                        _test.Fail("ExtentReport 5 Capture: Test Failed", mediaEntity);
+                        /* Usage of traditional approach for capturing screenshots */
+                        _test.Log(Status.Fail, "Traditional Snapshot below: " + _test.AddScreenCaptureFromPath("Screenshots//" + fileName));
+                        break;
+                    case TestStatus.Passed:
+                        logstatus = Status.Pass;
+                        /* The older way of capturing screenshots */
+                        Capture(driver.Value, fileName);
+                        /* Capturing Screenshots using built-in methods in ExtentReports 5 */
+                        mediaEntity = CaptureScreenShot(driver.Value, fileName);
+                        _test!.Log(Status.Pass, "Pass");
+                        /* Usage of MediaEntityBuilder for capturing screenshots */
+                        _test.Pass("ExtentReport 5 Capture: Test Passed", mediaEntity);
+                        /* Usage of traditional approach for capturing screenshots */
+                        _test.Log(Status.Pass, "Traditional Snapshot below: " + _test.AddScreenCaptureFromPath("Screenshots//" + fileName));
+                        break;
+                    case TestStatus.Inconclusive:
+                        logstatus = Status.Warning;
+                        break;
+                    case TestStatus.Skipped:
+                        logstatus = Status.Skip;
+                        break;
+                    default:
+                        break;
+                }
 
-            try
-            {
-                ((IJavaScriptExecutor)driver.Value!).ExecuteScript("lambda-status=" + (passed ? "passed" : "failed"));
+                _test?.Log(logstatus, "Test: " + TC_Name + " Status:" + logstatus + stacktrace);
+
+                try
+                {
+                    ((IJavaScriptExecutor)driver.Value).ExecuteScript("lambda-status=" + (passed ? "passed" : "failed"));
+                }
+                finally
+                {
+                    driver.Value.Quit();
+                }
             }
-            finally
+            else
             {
-                driver.Value?.Quit();
+                _test?.Log(Status.Fail, "Test: " + TC_Name + " — driver was null (Init failed): " + stacktrace);
             }
         }
 
