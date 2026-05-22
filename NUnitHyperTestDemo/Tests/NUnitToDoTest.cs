@@ -125,26 +125,21 @@ namespace NUnitToDo
             _test = _extent!.CreateTest(context_name);
 
             Console.WriteLine("Navigating to todos app.");
-            driver.Value!.Navigate().GoToUrl("https://lambdatest.github.io/sample-todo-app/");
-
+            driver.Value!.Navigate().GoToUrl("https://ltqa-frontend.lambdatestinternal.com/sample-todo-app/");
+            var wait = new WebDriverWait(driver.Value, TimeSpan.FromSeconds(20));
+            wait.Until(d => d.FindElement(By.Name("li4")).Displayed);
             driver.Value.FindElement(By.Name("li4")).Click();
             Console.WriteLine("Clicking Checkbox");
             driver.Value.FindElement(By.Name("li5")).Click();
-
-            /* If both clicks worked, then the following List should have length 2 */
-            IList<IWebElement> elems = driver.Value.FindElements(By.ClassName("ng-not-empty"));
-
-            /* so we'll assert that this is correct. */
+            IList<IWebElement> elems = driver.Value.FindElements(By.CssSelector("input[type='checkbox']:checked"));
             Assert.That(elems.Count, Is.EqualTo(2));
-
             Console.WriteLine("Entering Text");
             driver.Value.FindElement(By.Id("sampletodotext")).SendKeys("Yey, Let's add it to list");
             driver.Value.FindElement(By.Id("addbutton")).Click();
-            var wait = new WebDriverWait(driver.Value, TimeSpan.FromSeconds(20));
             string expectedText = "Yey, Let's add it to list";
             var lastItem = wait.Until(d =>
             {
-                var items = d.FindElements(By.CssSelector("ul.list-unstyled li span.ng-binding"));
+                var items = d.FindElements(By.CssSelector("ul.list-unstyled li span[data-testid^='todo-text-']"));
                 if (items.Count == 0) return null;
                 var last = items[items.Count - 1];
                 return last.Text.Trim() == expectedText ? last : null;
