@@ -22,7 +22,7 @@ pre:
 
 testDiscovery:
   type: raw
-  mode: dynamic
+  mode: remote
   command: powershell -File scripts/discover-tests.ps1
 
 testRunnerCommand: dotnet test NUnitHyperTestDemo.sln --filter TestCategory=$test 
