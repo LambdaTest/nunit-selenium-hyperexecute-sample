@@ -1,13 +1,14 @@
 ---
 version: 0.1
-runson: win
-
-autosplit: true
-concurrency: 2
 
 runtime:
   language: dotnet
   version: "8.0"
+
+runson: win
+
+autosplit: true
+concurrency: 2
 
 env:
   NUGET_PACKAGES: 'C:\nuget_global_cache'
@@ -15,19 +16,23 @@ env:
   NUGET_PLUGINS_CACHE_PATH: 'C:\nuget_plugins_cache'
 
 pre:
- - dotnet restore
- - dotnet list NUnitHyperTestDemo/NUnitHyperTestDemo.csproj package > packages.txt
- - nuget locals all -clear
- - dotnet build -c Release
+  - dotnet --version
+  - dotnet restore NUnitHyperTestDemo.sln
+  - dotnet list NUnitHyperTestDemo/NUnitHyperTestDemo.csproj package > packages.txt
+  - nuget locals all -clear
+  - dotnet build NUnitHyperTestDemo.sln -c Release
 
 testDiscovery:
   type: raw
   mode: remote
-  command: powershell -File scripts/discover-tests.ps1
+  command: powershell -ExecutionPolicy Bypass -File scripts/discover-tests.ps1
 
-testRunnerCommand: dotnet test NUnitHyperTestDemo.sln --filter TestCategory=$test 
+testRunnerCommand: dotnet test NUnitHyperTestDemo.sln --filter "TestCategory=$test"
 
 retryOnFailure: true
 maxRetries: 1
 
-jobLabel: [selenium-Nunit, win, autosplit]  
+jobLabel:
+  - selenium-Nunit
+  - win
+  - autosplit
