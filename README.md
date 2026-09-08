@@ -48,8 +48,31 @@ set LT_ACCESS_KEY="YOUR_ACCESS_KEY"
 
 ### Run tests
 
+Recommended (v0.2 framework-based remote test discovery — HyperExecute's .NET
+runner discovers the NUnit tests from the built assembly on the worker, so no
+grep-based discovery command or `testRunnerCommand` is needed):
+
 ```bash
-./hyperexecute --config yaml/nunit_hyperexecute_matrix_sample.yaml
+./hyperexecute --user $LT_USERNAME --key $LT_ACCESS_KEY --config yaml/linux/nunit_hyperexecute_remote_v2.yaml
+```
+
+The v0.2 config declares the framework and lets HyperExecute do the rest:
+
+```yaml
+framework:
+  name: dotnet/nunit
+  discoveryMode: remote   # dotnet/* runners are remote-discovery only
+  discoveryType: method   # method (default) | class
+  flags:
+    - --project
+    - NUnitHyperTestDemo/NUnitHyperTestDemo.csproj
+```
+
+Legacy v0.1 configs (grep-based discovery) are kept per OS under `yaml/linux`,
+`yaml/mac`, `yaml/win`, and `yaml/win11`, e.g.:
+
+```bash
+./hyperexecute --user $LT_USERNAME --key $LT_ACCESS_KEY --config yaml/linux/nunit_hyperexecute_matrix_sample.yaml
 ```
 
 View results on your TestMu AI dashboard.

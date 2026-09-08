@@ -1,0 +1,36 @@
+---
+version: "0.2"
+runson: linux
+
+autosplit: true
+concurrency: 2
+
+env:
+  NUGET_PACKAGES: '/home/ltuser/.nuget/packages/'
+  NUGET_HTTP_CACHE_PATH: '/home/ltuser/.local/share/NuGet/v3-cache'
+  NUGET_PLUGINS_CACHE_PATH: '/home/ltuser/.local/share/NuGet/plugins-cache'
+
+pre:
+  - dotnet restore
+  - dotnet build -c Release --no-restore
+
+# Framework-based remote test discovery: HyperExecute's .NET runner discovers
+# NUnit tests from the built assembly on the worker — no grep-based discovery
+# command or testRunnerCommand needed.
+framework:
+  name: dotnet/nunit
+  discoveryMode: remote   # dotnet/* runners are remote-discovery only
+  discoveryType: method   # method (default) | class
+  defaultReports: false   # runner posts results via the HyperExecute callback
+  flags:
+    - --project
+    - NUnitHyperTestDemo/NUnitHyperTestDemo.csproj
+
+retryOnFailure: true
+maxRetries: 1
+
+jobLabel: [selenium-nunit, linux, remote-discovery, v0.2]
+
+runtime:
+  language: dotnet
+  version: 8
