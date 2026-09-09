@@ -21,7 +21,6 @@ framework:
   name: dotnet/nunit
   discoveryMode: remote   # dotnet/* runners are remote-discovery only
   discoveryType: method   # method (default) | class
-  defaultReports: false   # runner posts results via the HyperExecute callback
   flags:
     - --project
     - NUnitHyperTestDemo/NUnitHyperTestDemo.csproj
