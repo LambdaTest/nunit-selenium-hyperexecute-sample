@@ -56,6 +56,10 @@ grep-based discovery command or `testRunnerCommand` is needed):
 ./hyperexecute --user $LT_USERNAME --key $LT_ACCESS_KEY --config yaml/linux/nunit_hyperexecute_remote_v2.yaml
 ```
 
+The same v0.2 config is available per OS: `yaml/linux`, `yaml/win`, `yaml/win11`,
+and `yaml/mac` each carry a `nunit_hyperexecute_remote_v2.yaml` differing only in
+`runson` and OS-specific cache paths.
+
 The v0.2 config declares the framework and lets HyperExecute do the rest:
 
 ```yaml
