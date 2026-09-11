@@ -1,5 +1,10 @@
 ---
 version: 0.1
+
+runtime:
+  language: dotnet
+  version: "8.0"
+
 globalTimeout: 150
 testSuiteTimeout: 150
 testSuiteStep: 150
@@ -17,33 +22,38 @@ cacheKey: '{{ checksum "packages.txt" }}'
 
 matrix:
   os: [mac, win, linux]
-  project: ["NUnitHyperTestDemo/NUnitHyperTestDemo.csproj"]
-  testmethods: ["ToDoTest", "SeleniumPlayGround"]
-
-project: NUnitHyperTestDemo/NUnitHyperTestDemo.csproj
-solution: NUnitHyperTestDemo.sln
+  project:
+    - "NUnitHyperTestDemo/NUnitHyperTestDemo.csproj"
+  testmethods:
+    - "ToDoTest"
+    - "LoginTest"
 
 pre:
-  - dotnet build
+  - dotnet --version
+  - dotnet restore NUnitHyperTestDemo.sln
+  - dotnet build NUnitHyperTestDemo.sln
 
 mergeArtifacts: true
 
 uploadArtefacts:
   - name: ExecutionSnapshots
     path:
-     - NUnitHyperTestDemo/Reports/**
+      - NUnitHyperTestDemo/Reports/**
 
 report: true
+
 partialReports:
-    type: json
-    location: NUnitHyperTestDemo/
-    frameworkName: extent
+  type: json
+  location: NUnitHyperTestDemo/
+  frameworkName: extent
 
 testDiscovery:
   type: raw
   mode: remote
-  command: grep 'Category' NUnitHyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$2}' | grep -o '".*"'
+  command: grep 'Category' NUnitHyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print $2}' | grep -o '".*"' | tr -d '"' | sort -u
 
-testRunnerCommand: dotnet test $solution --filter TestCategory=$test 
+testRunnerCommand: dotnet test NUnitHyperTestDemo.sln --filter "TestCategory=$test"
 
-jobLabel: [selenium-Nunit, hybrid]
+jobLabel:
+  - selenium-Nunit
+  - hybrid
