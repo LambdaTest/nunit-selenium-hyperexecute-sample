@@ -74,6 +74,14 @@ namespace NUnitLoginTest
         [SetUp]
         public void Init()
         {
+            // Wells on-prem dropped Firefox support - skip the firefox fixture when DISABLE_FIREFOX=true
+            // (env set by the no-firefox yaml). SaaS runs keep firefox.
+            if (browser.ToLower() == "firefox" &&
+                string.Equals(Environment.GetEnvironmentVariable("DISABLE_FIREFOX"), "true", StringComparison.OrdinalIgnoreCase))
+            {
+                Assert.Ignore("Firefox is disabled on this environment (DISABLE_FIREFOX=true).");
+            }
+
             /* Selenium 4 uses browser-specific Options classes instead of DesiredCapabilities */
             DriverOptions options;
 
