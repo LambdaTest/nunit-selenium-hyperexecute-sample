@@ -25,7 +25,7 @@ testRunnerCommand: dotnet test NUnitHyperTestDemo.sln --filter TestCategory=$tes
 retryOnFailure: true
 maxRetries: 1
 
-jobLabel: [selenium-Nunit, linux, autosplit]  
+jobLabel: [selenium-Nunit, linux, autosplit, dotnet-8]  
 
 runtime:
   language: dotnet
