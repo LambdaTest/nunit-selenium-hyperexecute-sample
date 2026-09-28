@@ -1,0 +1,45 @@
+---
+version: 0.1
+globalTimeout: 150
+testSuiteTimeout: 150
+testSuiteStep: 150
+
+runson: mac
+
+autosplit: true
+retryOnFailure: true
+
+maxRetries: 1
+concurrency: 2
+parallelism: 1
+
+project: NUnitHyperTestDemo/NUnitHyperTestDemo.csproj
+solution: NUnitHyperTestDemo.sln
+
+
+pre:
+  # - ls -R
+  - dotnet build
+  - ls -R
+
+mergeArtifacts: true
+
+uploadArtefacts:
+  - name: ExecutionSnapshots
+    path:
+     - NUnitHyperTestDemo/Reports/**
+
+report: true
+partialReports:
+    type: json
+    location: NUnitHyperTestDemo/
+    frameworkName: extent
+
+testDiscovery:
+  type: raw
+  mode: remote
+  command: grep 'Category' NUnitHyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$2}' | grep -o '".*"'
+
+testRunnerCommand: dotnet test $solution --filter TestCategory=$test 
+
+jobLabel: [selenium-Nunit, mac, autosplit]  

@@ -1,0 +1,26 @@
+---
+version: 0.1
+runson: linux
+
+env:
+  NUGET_PACKAGES: '/home/ltuser/.nuget/packages/'
+  NUGET_HTTP_CACHE_PATH: '/home/ltuser/.local/share/NuGet/v3-cache'
+  NUGET_PLUGINS_CACHE_PATH: '/home/ltuser/.local/share/NuGet/plugins-cache'
+
+matrix:
+  project: ["NUnitHyperTestDemo/NUnitHyperTestDemo.csproj"]
+  testmethods: ["ToDoTest", "SeleniumPlayGround"]
+  solution: ["NUnitHyperTestDemo.sln"]
+
+pre:
+ - dotnet restore
+ - dotnet list $project package > packages.txt
+ - dotnet build -c Release
+
+testSuites:
+  - dotnet test $solution --filter "(Category=$testmethods)"
+
+retryOnFailure: true
+maxRetries: 1
+
+jobLabel: [selenium-Nunit, linux, matrix]  

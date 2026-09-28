@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <theme>STANDARD</theme>
+  <encoding>UTF-8</encoding>
+  <protocol>HTTPS</protocol>
+  <documentTitle>Report Demonstration with NUnit and Extent Reports</documentTitle>
+  <reportName>Demonstration of NUnit framework on HyperTest Grid</reportName>
+  <timelineEnabled>true</timelineEnabled>
+  <offlineMode>false</offlineMode>
+  <timeStampFormat>MMM dd, yyyy HH:mm:ss</timeStampFormat>
+</configuration>

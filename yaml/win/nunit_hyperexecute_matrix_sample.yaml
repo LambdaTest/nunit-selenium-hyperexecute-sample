@@ -1,0 +1,53 @@
+---
+version: 0.1
+runson: win
+
+runtime:
+  language: dotnet
+  version: "8.0"
+
+globalTimeout: 150
+testSuiteTimeout: 150
+testSuiteStep: 150
+
+concurrency: 2
+retryOnFailure: true
+maxRetries: 1
+
+env:
+  NUGET_PACKAGES: 'C:\nuget_global_cache'
+  NUGET_HTTP_CACHE_PATH: 'C:\nuget_http_cache'
+  NUGET_PLUGINS_CACHE_PATH: 'C:\nuget_plugins_cache'
+
+matrix:
+  project: ["NUnitHyperTestDemo/NUnitHyperTestDemo.csproj"]
+  testmethods: ["ToDoTest", "LoginTest"]
+
+pre:
+ - dotnet restore
+ - dotnet list $project package > packages.txt
+ - nuget locals all -clear
+ - dotnet build -c Release
+
+cacheKey: '{{ checksum "packages.txt" }}'
+
+post:
+  - cat yaml/win/nunit_hyperexecute_matrix_sample.yaml
+
+mergeArtifacts: true
+
+uploadArtefacts:
+  - name: ExecutionSnapshots
+    path:
+     - NUnitHyperTestDemo/Reports/**
+
+report: true
+partialReports:
+    type: json
+    location: NUnitHyperTestDemo/
+    frameworkName: extent
+
+testSuites:
+  - dotnet test $project --filter "(Category=$testmethods)"
+
+jobLabel: [selenium-Nunit, win, matrix]

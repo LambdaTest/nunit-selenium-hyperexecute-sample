@@ -1,0 +1,12 @@
+.DS_Store
+.hyperexecute/
+.updatedhyperexecute.yaml
+concierge
+concierge.exe
+logs/
+nucleus.log
+artifacts
+NUnitHyperTestDemo/obj/
+NUnitHyperTestDemo/bin/
+hyperexecute
+hyperexecute-cli.log

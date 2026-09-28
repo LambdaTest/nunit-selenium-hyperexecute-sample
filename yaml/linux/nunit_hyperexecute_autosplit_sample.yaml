@@ -1,0 +1,32 @@
+---
+version: 0.1
+runson: linux
+
+autosplit: true
+concurrency: 2
+
+env:
+  NUGET_PACKAGES: '/home/ltuser/.nuget/packages/'
+  NUGET_HTTP_CACHE_PATH: '/home/ltuser/.local/share/NuGet/v3-cache'
+  NUGET_PLUGINS_CACHE_PATH: '/home/ltuser/.local/share/NuGet/plugins-cache'
+
+pre:
+ - dotnet restore
+ - dotnet list NUnitHyperTestDemo/NUnitHyperTestDemo.csproj package > packages.txt
+ - dotnet build -c Release
+
+testDiscovery:
+  type: raw
+  mode: remote
+  command: grep 'Category' NUnitHyperTestDemo -ir --include=\*.cs --exclude=DriverFactory.cs --exclude=HyperTestDemo.AssemblyInfo.cs | awk '{print$2}' | grep -o '".*"'
+
+testRunnerCommand: dotnet test NUnitHyperTestDemo.sln --filter TestCategory=$test 
+
+retryOnFailure: true
+maxRetries: 1
+
+jobLabel: [selenium-Nunit, linux, autosplit, dotnet-8]  
+
+runtime:
+  language: dotnet
+  version: 8

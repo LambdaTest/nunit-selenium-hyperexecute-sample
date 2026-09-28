@@ -1,0 +1,41 @@
+---
+version: 0.1
+globalTimeout: 150
+testSuiteTimeout: 150
+testSuiteStep: 150
+
+runson: mac
+retryOnFailure: true
+
+maxRetries: 1
+concurrency: 2
+
+project: NUnitHyperTestDemo/NUnitHyperTestDemo.csproj
+solution: NUnitHyperTestDemo.sln
+  
+matrix:
+  project: ["NUnitHyperTestDemo/NUnitHyperTestDemo.csproj"]
+  testmethods: ["ToDoTest", "SeleniumPlayGround"]
+
+pre:
+  - dotnet build
+
+cacheKey: '{{ checksum "packages.txt" }}'
+
+mergeArtifacts: true
+
+uploadArtefacts:
+  - name: ExecutionSnapshots
+    path:
+     - NUnitHyperTestDemo/Reports/**
+
+report: true
+partialReports:
+    type: json
+    location: NUnitHyperTestDemo/
+    frameworkName: extent
+
+testSuites:
+  - dotnet test $project --filter "(Category=$testmethods)"
+
+jobLabel: [selenium-Nunit, mac, matrix]  
