@@ -1,0 +1,39 @@
+---
+version: 0.1
+runson: linux
+autosplit: true
+concurrency: 1
+
+# Wells on-prem no longer supports Firefox. DISABLE_FIREFOX makes the NUnit firefox
+# TestFixtures self-ignore (Assert.Ignore in [SetUp]), so only the chrome fixtures run.
+# SaaS runs (which do not set this env) keep running firefox as before.
+env:
+  NUGET_PACKAGES: /home/ltuser/.nuget/packages/
+  NUGET_HTTP_CACHE_PATH: /home/ltuser/.local/share/NuGet/v3-cache
+  NUGET_PLUGINS_CACHE_PATH: /home/ltuser/.local/share/NuGet/plugins-cache
+  DISABLE_FIREFOX: "true"
+
+pre:
+  - dotnet restore
+  - dotnet list NUnitHyperTestDemo/NUnitHyperTestDemo.csproj package > packages.txt
+  - dotnet build -c Release
+  - dotnet --info
+
+testDiscovery:
+  type: raw
+  mode: dynamic
+  command: echo LoginTest
+
+testRunnerCommand: dotnet test NUnitHyperTestDemo.sln --filter TestCategory=$test
+
+retryOnFailure: true
+maxRetries: 1
+
+jobLabel: [selenium-Nunit, linux, autosplit, dotnet-8]
+image: dotnet_v1
+
+ltOptions:
+  console: true
+  network: true
+  visual: true
+  selenium_version: "4.24.0"
