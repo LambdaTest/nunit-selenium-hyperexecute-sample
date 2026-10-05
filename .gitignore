@@ -9,4 +9,9 @@ artifacts
 NUnitHyperTestDemo/obj/
 NUnitHyperTestDemo/bin/
 hyperexecute
-hyperexecute-cli.log
+hyperexecute-cli.lognode_modules/
+hyperexecute.exe
+.hyperexecute.exe.old
+hyperexecuteupdate
+hyperexecute-code-*.zip
+node_modules/
