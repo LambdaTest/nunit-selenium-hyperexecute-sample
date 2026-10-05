@@ -13,3 +13,4 @@ hyperexecute.exe
 .hyperexecute.exe.old
 hyperexecuteupdate
 hyperexecute-code-*.zip
+node_modules/
